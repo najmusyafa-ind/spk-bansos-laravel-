@@ -15,10 +15,7 @@ $_ENV['VIEW_COMPILED_PATH'] = $_SERVER['VIEW_COMPILED_PATH'] = '/tmp/storage/fra
 
 // Force Serverless-compatible drivers
 $_SERVER['HTTPS'] = 'on';
-putenv('SESSION_DRIVER=file');
-$_ENV['SESSION_DRIVER'] = $_SERVER['SESSION_DRIVER'] = 'file';
-putenv('SESSION_FILES=/tmp/storage/framework/sessions');
-$_ENV['SESSION_FILES'] = $_SERVER['SESSION_FILES'] = '/tmp/storage/framework/sessions';
+
 putenv('CACHE_STORE=array');
 $_ENV['CACHE_STORE'] = $_SERVER['CACHE_STORE'] = 'array';
 
