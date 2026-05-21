@@ -1,0 +1,4 @@
+nama;rt;rw;kelurahan;alamat;penghasilan;tanggungan;kondisi_rumah;pekerjaan;aset
+Contoh Warga Satu;001;001;Sukamaju;Jl. Contoh No. 1;Kurang dari 1 juta;4-5 orang;Sangat buruk;Tidak bekerja;Tidak ada
+Contoh Warga Dua;001;002;Sukamaju;Jl. Contoh No. 2;1-2 juta;2-3 orang;Buruk;Tidak tetap;Sedikit
+Contoh Warga Tiga;002;001;Sukamaju;Jl. Contoh No. 3;2-3 juta;1 orang;Sedang;Tetap/PNS;Banyak
