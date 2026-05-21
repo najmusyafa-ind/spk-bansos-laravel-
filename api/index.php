@@ -13,6 +13,12 @@ $_ENV['APP_ROUTES_CACHE'] = $_SERVER['APP_ROUTES_CACHE'] = '/tmp/bootstrap/cache
 $_ENV['APP_SERVICES_CACHE'] = $_SERVER['APP_SERVICES_CACHE'] = '/tmp/bootstrap/cache/services.php';
 $_ENV['VIEW_COMPILED_PATH'] = $_SERVER['VIEW_COMPILED_PATH'] = '/tmp/storage/framework/views';
 
+// Force Serverless-compatible drivers
+putenv('SESSION_DRIVER=cookie');
+$_ENV['SESSION_DRIVER'] = $_SERVER['SESSION_DRIVER'] = 'cookie';
+putenv('CACHE_STORE=array');
+$_ENV['CACHE_STORE'] = $_SERVER['CACHE_STORE'] = 'array';
+
 // Create temp directories if they don't exist
 @mkdir('/tmp/storage/framework/views', 0777, true);
 @mkdir('/tmp/bootstrap/cache', 0777, true);
