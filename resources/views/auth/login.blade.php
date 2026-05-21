@@ -20,13 +20,10 @@
 
     <div class="w-full max-w-md">
         {{-- Logo --}}
-        <div class="text-center mb-8">
-            <div
-                class="w-[72px] h-[72px] mx-auto mb-4 drop-shadow-xl hover:scale-105 transition-transform duration-300">
-                <img src="{{ asset('logo.png') }}" alt="Logo Purbalingga" class="w-full h-full object-contain">
-            </div>
-            <h1 class="text-3xl font-bold text-white">SPK Bansos</h1>
-            <p class="text-blue-200 mt-2 text-sm">Sistem Pendukung Keputusan Penerima Bantuan Sosial</p>
+        <div class="mb-4 text-center">
+            <img src="{{ asset('logo.png') }}" alt="Logo Purbalingga" class="w-16 h-16 mx-auto mb-2 drop-shadow-md">
+            <h1 class="text-3xl font-extrabold text-white tracking-tight">SPK Bansos</h1>
+            <p class="text-indigo-200 mt-2 text-sm">Sistem Pendukung Keputusan Penerima Bantuan Sosial</p>
         </div>
 
         {{-- Card --}}
