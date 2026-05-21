@@ -59,8 +59,7 @@ return [
     | are free to provide another location where they should be stored.
     |
     */
-
-    'files' => storage_path('framework/sessions'),
+    'files' => env('SESSION_FILES', storage_path('framework/sessions')),
 
     /*
     |--------------------------------------------------------------------------
@@ -129,7 +128,7 @@ return [
 
     'cookie' => env(
         'SESSION_COOKIE',
-        Str::slug((string) env('APP_NAME', 'laravel')).'-session'
+        Str::slug((string) env('APP_NAME', 'laravel')) . '-session'
     ),
 
     /*
