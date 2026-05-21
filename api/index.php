@@ -16,6 +16,18 @@ $_ENV['VIEW_COMPILED_PATH'] = $_SERVER['VIEW_COMPILED_PATH'] = '/tmp/storage/fra
 // Force Serverless-compatible drivers
 $_SERVER['HTTPS'] = 'on';
 
+// Force Supabase pooler (IPv4) — overrides Vercel dashboard env vars
+putenv('DB_CONNECTION=pgsql');
+putenv('DB_HOST=aws-1-ap-southeast-1.pooler.supabase.com');
+putenv('DB_PORT=6543');
+putenv('DB_DATABASE=postgres');
+putenv('DB_USERNAME=postgres.atuwrqyjgfvqbuiqbqix');
+$_ENV['DB_CONNECTION'] = $_SERVER['DB_CONNECTION'] = 'pgsql';
+$_ENV['DB_HOST'] = $_SERVER['DB_HOST'] = 'aws-1-ap-southeast-1.pooler.supabase.com';
+$_ENV['DB_PORT'] = $_SERVER['DB_PORT'] = '6543';
+$_ENV['DB_DATABASE'] = $_SERVER['DB_DATABASE'] = 'postgres';
+$_ENV['DB_USERNAME'] = $_SERVER['DB_USERNAME'] = 'postgres.atuwrqyjgfvqbuiqbqix';
+
 putenv('CACHE_STORE=array');
 $_ENV['CACHE_STORE'] = $_SERVER['CACHE_STORE'] = 'array';
 
