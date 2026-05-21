@@ -5,14 +5,23 @@ namespace App\Services;
 class AhpService
 {
     private array $ri = [
-        1 => 0.00, 2 => 0.00, 3 => 0.58, 4 => 0.90, 5 => 1.12,
-        6 => 1.24, 7 => 1.32, 8 => 1.41, 9 => 1.45, 10 => 1.49
+        1 => 0.00,
+        2 => 0.00,
+        3 => 0.58,
+        4 => 0.90,
+        5 => 1.12,
+        6 => 1.24,
+        7 => 1.32,
+        8 => 1.41,
+        9 => 1.45,
+        10 => 1.49
     ];
 
     public function hitungBobot(array $matriks)
     {
         $n = count($matriks);
-        if ($n < 1) return ['valid' => false, 'error' => 'Matriks kosong'];
+        if ($n < 1)
+            return ['valid' => false, 'error' => 'Matriks kosong'];
 
         $jumlahKolom = array_fill(0, $n, 0);
         foreach ($matriks as $i => $baris) {
@@ -38,8 +47,9 @@ class AhpService
             $lambdaMax += $bobot[$i] * $jumlahKolom[$i];
         }
 
-        $ci = ($lambdaMax - $n) / ($n - 1 > 0 ? $n - 1 : 1);
-        $cr = $ci / ($this->ri[$n] ?? 1.49);
+        $ci = ($n - 1 > 0) ? ($lambdaMax - $n) / ($n - 1) : 0;
+        $riValue = $this->ri[$n] ?? 1.49;
+        $cr = $riValue == 0 ? 0 : $ci / $riValue;
 
         return [
             'valid' => $cr <= 0.10,

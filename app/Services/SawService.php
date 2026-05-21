@@ -19,7 +19,7 @@ class SawService
         // Pakai bobot override (dari simulasi) atau bobot asli DB
         $bobot = [];
         $totalOverride = 0;
-        
+
         foreach ($kriterias as $k) {
             if (!empty($overrideBobot)) {
                 $val = $overrideBobot[$k->id] ?? 0;
@@ -42,11 +42,13 @@ class SawService
         }
 
         // Ambil semua penilaian pada periode tersebut
-        $wargas = Warga::whereHas('penilaians', function($q) use ($periode) {
+        $wargas = Warga::whereHas('penilaians', function ($q) use ($periode) {
             $q->where('periode', $periode);
-        })->with(['penilaians' => function($q) use ($periode) {
-            $q->where('periode', $periode);
-        }])->get();
+        })->with([
+                    'penilaians' => function ($q) use ($periode) {
+                        $q->where('periode', $periode);
+                    }
+                ])->get();
 
         if ($wargas->isEmpty()) {
             throw new \Exception("Tidak ada data penilaian warga untuk periode {$periode}.");
@@ -56,7 +58,8 @@ class SawService
         $minMax = [];
         foreach ($kriterias as $k) {
             $nilaiKriteria = $wargas->pluck('penilaians')->flatten()->where('kriteria_id', $k->id)->pluck('nilai_numerik')->toArray();
-            if (empty($nilaiKriteria)) continue;
+            if (empty($nilaiKriteria))
+                continue;
 
             $minMax[$k->id] = [
                 'max' => max($nilaiKriteria),
@@ -67,16 +70,18 @@ class SawService
         $hasilAkhir = [];
         foreach ($wargas as $warga) {
             // Cegah duplikasi jika query builder me-return duplikat
-            if (isset($hasilAkhir[$warga->id])) continue;
+            if (isset($hasilAkhir[$warga->id]))
+                continue;
 
             $skorV = 0;
             foreach ($warga->penilaians as $p) {
                 $k = $kriterias->firstWhere('id', $p->kriteria_id);
-                if (!$k || !isset($minMax[$k->id])) continue;
+                if (!$k || !isset($minMax[$k->id]))
+                    continue;
 
                 $b = $bobot[$k->id];
                 $nilai = $p->nilai_numerik;
-                
+
                 // Normalisasi SAW
                 if ($k->tipe === 'benefit') {
                     $r = $minMax[$k->id]['max'] == 0 ? 0 : $nilai / $minMax[$k->id]['max'];
@@ -88,16 +93,18 @@ class SawService
             }
 
             $status = 'tidak_layak';
-            if ($skorV >= 0.75) $status = 'prioritas';
-            elseif ($skorV >= 0.50) $status = 'layak';
+            if ($skorV >= 0.75)
+                $status = 'prioritas';
+            elseif ($skorV >= 0.50)
+                $status = 'layak';
 
             $hasilAkhir[$warga->id] = [
-                'warga_id'   => $warga->id,
-                'nama'       => $warga->nama, // Untuk sorting/simulasi
-                'periode'    => $periode,
+                'warga_id' => $warga->id,
+                'nama' => $warga->nama, // Untuk sorting/simulasi
+                'periode' => $periode,
                 'skor_akhir' => $skorV,
-                'skor'       => $skorV, // alias
-                'status'     => $status,
+                'skor' => $skorV, // alias
+                'status' => $status,
             ];
         }
 
@@ -105,13 +112,13 @@ class SawService
         $hasilAkhir = array_values($hasilAkhir);
 
         // Sorting by skor_akhir descending
-        usort($hasilAkhir, function($a, $b) {
+        usort($hasilAkhir, function ($a, $b) {
             return $b['skor_akhir'] <=> $a['skor_akhir'];
         });
 
         // Tambah field ranking
-        foreach ($hasilAkhir as $i => &$h) {
-            $h['ranking'] = $i + 1;
+        foreach ($hasilAkhir as $i => $h) {
+            $hasilAkhir[$i]['ranking'] = $i + 1;
         }
 
         // Jika tidak ada override bobot, berarti ini hitung beneran, simpan ke DB
@@ -121,16 +128,16 @@ class SawService
                 Hasil::updateOrCreate(
                     [
                         'warga_id' => $h['warga_id'],
-                        'periode'  => $h['periode'],
+                        'periode' => $h['periode'],
                     ],
                     [
                         'skor_akhir' => $h['skor_akhir'],
-                        'ranking'    => $h['ranking'],
-                        'status'     => $h['status'],
+                        'ranking' => $h['ranking'],
+                        'status' => $h['status'],
                     ]
                 );
             }
-            
+
             // Hapus hasil lama yang warganya sudah tidak ada di penilaian periode ini
             $wargaIds = array_column($hasilAkhir, 'warga_id');
             Hasil::where('periode', $periode)->whereNotIn('warga_id', $wargaIds)->delete();

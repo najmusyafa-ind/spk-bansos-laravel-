@@ -3,9 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class Kriteria extends Model
 {
+    protected static function booted()
+    {
+        static::saved(fn() => Cache::flush());
+        static::deleted(fn() => Cache::flush());
+    }
     protected $fillable = [
         'kode',
         'nama',

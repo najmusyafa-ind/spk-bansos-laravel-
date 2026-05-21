@@ -34,13 +34,7 @@ class AhpController extends Controller
 
         $ahpResult = null;
         if ($matriksDB->isNotEmpty()) {
-            $matriksArr = [];
-            foreach ($ids as $i => $idBaris) {
-                foreach ($ids as $j => $idKolom) {
-                    $matriksArr[$i][$j] = $matriks[$i][$j];
-                }
-            }
-            $ahpResult = (new AhpService())->hitungBobot($matriksArr);
+            $ahpResult = (new AhpService())->hitungBobot($matriks);
         }
 
         return view('ahp.index', compact('kriterias', 'matriks', 'ahpResult'));
