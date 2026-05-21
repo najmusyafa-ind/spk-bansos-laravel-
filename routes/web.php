@@ -12,6 +12,11 @@ use App\Http\Controllers\SimulasiController;
 use App\Http\Controllers\ImportController;
 
 // Guest routes
+Route::get('/run-migrations', function () {
+    \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+    return \Illuminate\Support\Facades\Artisan::output();
+});
+
 Route::get('/', fn() => redirect()->route('login'));
 Route::get('/login', [AuthController::class, 'form'])->name('login');
 // Rate-limited: max 5 percobaan per 1 menit per IP
