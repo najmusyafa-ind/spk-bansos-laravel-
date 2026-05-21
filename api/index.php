@@ -15,8 +15,8 @@ $_ENV['VIEW_COMPILED_PATH'] = $_SERVER['VIEW_COMPILED_PATH'] = '/tmp/storage/fra
 
 // Force Serverless-compatible drivers
 $_SERVER['HTTPS'] = 'on';
-putenv('SESSION_DRIVER=database');
-$_ENV['SESSION_DRIVER'] = $_SERVER['SESSION_DRIVER'] = 'database';
+putenv('SESSION_DRIVER=file');
+$_ENV['SESSION_DRIVER'] = $_SERVER['SESSION_DRIVER'] = 'file';
 putenv('CACHE_STORE=array');
 $_ENV['CACHE_STORE'] = $_SERVER['CACHE_STORE'] = 'array';
 
@@ -24,4 +24,6 @@ $_ENV['CACHE_STORE'] = $_SERVER['CACHE_STORE'] = 'array';
 @mkdir('/tmp/storage/framework/views', 0777, true);
 @mkdir('/tmp/bootstrap/cache', 0777, true);
 
+@mkdir('/tmp/storage/framework/sessions', 0777, true);
 require __DIR__ . '/../public/index.php';
+@mkdir('/tmp/storage/framework/sessions', 0777, true);
