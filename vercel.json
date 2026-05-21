@@ -1,6 +1,5 @@
 {
     "version": 2,
-    
     "builds": [
         {
             "src": "api/index.php",
@@ -13,7 +12,7 @@
     ],
     "routes": [
         {
-            "src": "/(build|css|js|images|fonts|template-import.csv|data-warga-dummy.csv)/(.*)",
+            "src": "/(build|css|js|images|img|fonts|template-import.csv|data-warga-dummy.csv)/(.*)",
             "dest": "/public/$1/$2"
         },
         {
