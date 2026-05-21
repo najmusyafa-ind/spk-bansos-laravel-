@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // Vercel Serverless Fix for Laravel 11 Read-Only Filesystem
 putenv('VIEW_COMPILED_PATH=/tmp/storage/framework/views');
 putenv('APP_CONFIG_CACHE=/tmp/bootstrap/cache/config.php');
@@ -14,6 +14,7 @@ $_ENV['APP_SERVICES_CACHE'] = $_SERVER['APP_SERVICES_CACHE'] = '/tmp/bootstrap/c
 $_ENV['VIEW_COMPILED_PATH'] = $_SERVER['VIEW_COMPILED_PATH'] = '/tmp/storage/framework/views';
 
 // Force Serverless-compatible drivers
+putenv('SESSION_DRIVER=cookie');SERVER['HTTPS'] = 'on';
 putenv('SESSION_DRIVER=cookie');
 $_ENV['SESSION_DRIVER'] = $_SERVER['SESSION_DRIVER'] = 'cookie';
 putenv('CACHE_STORE=array');
